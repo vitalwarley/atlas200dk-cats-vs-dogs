@@ -10,7 +10,7 @@ import graph
 
 cur_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cur_path)
-model = './models/catsvsdogs.om'
+model = './model/model.om'
 pathDir = './PetImages'
 
 
