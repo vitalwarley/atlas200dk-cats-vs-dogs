@@ -1,5 +1,3 @@
-# coding=utf-8
-
 import os
 import time
 
@@ -8,62 +6,59 @@ import numpy as np
 
 import graph
 
+
 cur_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cur_path)
+
 model = './model/model.om'
-pathDir = './PetImages'
+images_folder = './PetImages'
+
+DVPP_WIDTH = 180
+DVPP_HEIGHT = 180
+
+
+
+def infer(graph, filepaths):
+
+    accs = []
+    times = []
+    for fpath in filepaths:
+        input_image = cv.imread(fpath)
+        if input_image is None:
+            continue
+        input_image = cv.resize(input_image, (DVPP_WIDTH, DVPP_HEIGHT))
+        start = time.time()
+        results = graph.Inference(input_image)
+        end = time.time()
+        accs.append(results)
+        times.append(end - start)
+        if results is None:
+            print("Graph inference failed!")
+            continue
+
+    return accs, times
 
 
 def main():
+
     try:
-        myGraph = graph.Graph(model)
+        graph = graph.Graph(model)
     except Exception as e:
         print("Except:", e)
         return
-    dvppInWidth = 180
-    dvppInHeight = 180
 
-    costs = []
-    catDir = os.path.join(pathDir, 'Cat')
-    catAcc = []
-    for allDir in os.listdir(catDir)[:1000]:
-        cat = os.path.join(catDir, allDir)
-        input_image = cv.imread(cat)
-        if input_image is None:
-            continue
-        input_image = cv.resize(input_image, (dvppInWidth, dvppInHeight))
-        start = time.time()
-        resultList = myGraph.Inference(input_image)
-        catAcc.append(resultList)
-        end = time.time()
-        costs.append(end - start)
-        if resultList is None:
-            print("graph inference failed")
-            continue
-    print('cats: cost time (mean, std): (%.5f, %.5f)' % (np.mean(costs), np.std(costs)))
-    print('cats: accuracy (mean) = %.3f' % (np.mean(catAcc)))
+    for animal in ['Cat', 'Dog']:
+        dir = os.path.join(images_folder, animal)
+        fnames = os.listdir(dir)[:1000]
+        fpaths = [os.path.join(dir, fname) for fname in fnames]
+        accs, times = infer(graph, fpaths)
+        mean_acc, sd_acc = np.mean(accs), np.std(accs)
+        mean_time, sd_time = np.mean(times), np.std(times)
 
-    costs = []
-    dogDir = os.path.join(pathDir, 'Dog')
-    dogAcc = []
-    for allDir in os.listdir(dogDir)[:1000]:
-        dog = os.path.join(dogDir, allDir)
-        input_image = cv.imread(dog)
-        if input_image is None:
-            continue
-        input_image = cv.resize(input_image, (dvppInWidth, dvppInHeight))
-        start = time.time()
-        resultList = myGraph.Inference(input_image)
-        dogAcc.append(resultList)
-        end = time.time()
-        costs.append(end - start)
-        if resultList is None:
-            print("graph inference failed")
-            continue
-    print('dogs: cost time (mean, std): (%.5f, %.5f)' % (np.mean(costs), np.std(costs)))
-    print('dogs: accuracy (mean) = %.3f' % (np.mean(dogAcc)))
+        print('{}: accuracy (mean, std) = ({:.3f}, {:.3f})'.format(animal, mean_acc, sd_acc))
+        print('{}: time (mean, std): ({:.5f}, {:.5f})'.format(animal, mean_time, sd_time))
 
-    myGraph.Destroy()
+    graph.Destroy()
     print('------------------- end')
 
 
