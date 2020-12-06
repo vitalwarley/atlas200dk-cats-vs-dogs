@@ -14,7 +14,7 @@ unzip -q kagglecatsanddogs_3367a.zip
 ```
 You have now a folder named `PetImages`.
 
-8. Execute: `python3 classify.py`
+8. Filter corrupted images: `python3 filter_corruped_images.py`
+9. Execute: `python3 classify.py`
 
 :)
-
