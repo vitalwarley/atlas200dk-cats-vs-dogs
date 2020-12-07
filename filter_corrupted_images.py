@@ -1,7 +1,7 @@
 import os
 
 num_skipped = 0
-folder = 'PetImages'
+folder = '/home/HwHiAiUser/HIAI_DATANDMODELSET/datasets/PetImages'
 
 for folder_name in ("Cat", "Dog"):
     folder_path = os.path.join(folder, folder_name)

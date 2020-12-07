@@ -11,11 +11,10 @@ cur_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(cur_path)
 
 model = './model/model.om'
-images_folder = './PetImages'
+images_folder = '/home/HwHiAiUser/HIAI_DATANDMODELSET/datasets/PetImages'
 
 DVPP_WIDTH = 180
 DVPP_HEIGHT = 180
-
 
 
 def infer(graph, filepaths):
@@ -42,7 +41,7 @@ def infer(graph, filepaths):
 def main():
 
     try:
-        graph = graph.Graph(model)
+        my_graph = graph.Graph(model)
     except Exception as e:
         print("Except:", e)
         return
@@ -51,14 +50,14 @@ def main():
         dir = os.path.join(images_folder, animal)
         fnames = os.listdir(dir)[:1000]
         fpaths = [os.path.join(dir, fname) for fname in fnames]
-        accs, times = infer(graph, fpaths)
+        accs, times = infer(my_graph, fpaths)
         mean_acc, sd_acc = np.mean(accs), np.std(accs)
         mean_time, sd_time = np.mean(times), np.std(times)
 
         print('{}: accuracy (mean, std) = ({:.3f}, {:.3f})'.format(animal, mean_acc, sd_acc))
         print('{}: time (mean, std): ({:.5f}, {:.5f})'.format(animal, mean_time, sd_time))
 
-    graph.Destroy()
+    my_graph.Destroy()
     print('------------------- end')
 
 
