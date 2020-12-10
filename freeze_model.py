@@ -16,10 +16,14 @@ def freeze_session(session, keep_var_names=None, output_names=None, clear_device
             session, input_graph_def, output_names, freeze_var_names)
         return frozen_graph
 
+def freeze_model(model_h5_path='model.h5'):
+  K.set_learning_phase(0)
+  model = tf.keras.models.load_model(model_h5_path)
+  frozen_graph = freeze_session(K.get_session(),
+                                output_names=[out.op.name for out in model.outputs])
 
-K.set_learning_phase(0)
-model = tf.keras.models.load_model('model.h5')
-frozen_graph = freeze_session(K.get_session(),
-                              output_names=[out.op.name for out in model.outputs])
+  tf.train.write_graph(frozen_graph, "model", "model.pb", as_text=False)
 
-tf.train.write_graph(frozen_graph, "model", "model.pb", as_text=False)
+
+if __name__ == "__main__":
+    freeze_model()
