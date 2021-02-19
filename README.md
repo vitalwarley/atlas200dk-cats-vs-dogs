@@ -26,10 +26,9 @@ You are now using python 3.7.2. Confirm by typing: `python --version`. To go bac
 Alternatively, you can use `virtualenv` and `virtualenvwrapper`:
 
 ```bash
-pip install virtualenv virtualenvwrapper
+pip install --user virtualenv virtualenvwrapper
 mkvirtualenv -p <python3.7 path> atlas200
 workon atlas200 # if isn't already activated
-pip install -r requirements.txt
 ```
 
 2 - Install the dependencies running the following command:
