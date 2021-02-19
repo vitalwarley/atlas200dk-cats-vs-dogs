@@ -28,7 +28,7 @@ Alternatively, you can use `virtualenv` and `virtualenvwrapper`:
 ```bash
 pip install --user virtualenv virtualenvwrapper
 mkvirtualenv -p <python3.7 path> atlas200
-workon atlas200 # if isn't already activated
+workon atlas200 # if it isn't already activated
 ```
 
 2 - Install the dependencies running the following command:
