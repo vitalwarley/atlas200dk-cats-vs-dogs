@@ -1,24 +1,36 @@
-#atlas200dk-cats-vs-dogs
+# atlas200dk-cats-vs-dogs
 
 1 - Install requirements.txt in python 3.7 or less, if you don't have this version, you can install it with pyenv running the following commands:
+
 ```bash
-# in linux
+
+# Linux
 
 curl https://pyenv.run | bash
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# in window
+# Windows
 
 pyenv-win
 ```
-restart the terminal and then run:
+Then, restart the terminal and then run:
 ```bash
 pyenv install 3.7.2
 pyenv global 3.7.2
 ```
-you are now using python 3.7.2, to confirm type: `python --version`. To go back into your default version type: `pyenv global <your-default-python-version>`
+
+You are now using python 3.7.2. Confirm by typing: `python --version`. To go back into your default version type: `pyenv global <your-default-python-version>`
+
+Alternatively, you can use `virtualenv` and `virtualenvwrapper`:
+
+```bash
+pip install virtualenv virtualenvwrapper
+mkvirtualenv -p <python3.7 path> atlas200
+workon atlas200 # if isn't already activated
+pip install -r requirements.txt
+```
 
 2 - Install the dependencies running the following command:
 ```bash
