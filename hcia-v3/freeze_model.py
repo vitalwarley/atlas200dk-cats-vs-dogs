@@ -1,3 +1,6 @@
+"""
+Source: https://leimao.github.io/blog/Save-Load-Inference-From-TF2-Frozen-Graph/
+"""
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.python.framework.convert_to_constants import convert_variables_to_constants_v2
@@ -17,13 +20,6 @@ frozen_func = convert_variables_to_constants_v2(full_model)
 layers = [op.name for op in frozen_func.graph.get_operations()]
 print("-" * 50)
 for layer in layers:
-    # print(layer)
-
-    # print("-" * 50)
-    # print("Frozen model inputs: ")
-    # print(frozen_func.inputs)
-    # print("Frozen model outputs: ")
-    # print(frozen_func.outputs)
 
     # Save frozen graph from frozen ConcreteFunction to hard drive
     tf.io.write_graph(graph_or_graph_def=frozen_func.graph,
