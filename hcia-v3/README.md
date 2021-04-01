@@ -5,9 +5,11 @@ WIP.
 ## Model Training and Preparation
 
 - Download [dataset](https://drive.google.com/file/d/1srPeSkbkKSSdB97UUDLNxOFI-7Tv5MJ1/view?usp=sharing).
-- Train a keras model with it. Input shape should be `(256, 224)`.
-- Save the trained model as an `.h5` file.
-- Convert model to `.pb` using `freeze_model.py`.
+- Train a Keras model with it. Input shape should be `(256, 224)`.
+- Save the trained model as an `.h5`.
+- Convert model to `.pb` using `freeze_model.py` 
+  - `python freeze_model.py <model_path>`. You must have the latest TensorFlow installed.
+  - Look if you now have new directory with the frozen model: `model/model.pb`.
 
 ## VM Access
 
@@ -19,8 +21,10 @@ WIP.
 
 - Open MindStudio via terminal: `./MindStudio/bin/MindStudio.sh`
 - Create a new project: `File > New > Project > Ascend App > Next > Empty Acl Project > Finish.`
-- Clone this project.
+  - Name your project in `Ascend App`step.
+- Clone this repository inside the new project.
+  - You can delete all other non-IDE files.
 - Download your `model.pb` and put it into `<ProjectName>/model/`
-- Execute: `python send_project.py --to-device atlas --execute`
+- Execute: `python3.7.5 send_project.py --to-device atlas --execute`
   - This needs the `.env` file. I will share it at the time of deployment.
 - Checkout the results in `outputs`!
