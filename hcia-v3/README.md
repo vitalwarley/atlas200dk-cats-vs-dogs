@@ -21,10 +21,14 @@ WIP.
 
 - Open MindStudio via terminal: `./MindStudio/bin/MindStudio.sh`
 - Create a new project: `File > New > Project > Ascend App > Next > Empty Acl Project > Finish.`
-  - Name your project in `Ascend App`step.
+  - Name your project in `Ascend App`step as "ImageClassification".
 - Clone this repository inside the new project.
-  - You can delete all other non-IDE files.
+  - You can delete all other non-IDE files: build, out, src, CMakeLists.txt.
+  - Execute: `mv atlas200dk-cats-vs-dogs/hcia-v3/* . && rm -rf atlas200dk-cats-vs-dogs`
 - Download your `model.pb` and put it into `<ProjectName>/model/`
+- Convert your model to `.om` and copy it to the project folder.
+  - `atc --input_shape="x:1,256,224,3" --check_report=/home/ascend/modelzoo/model/device/network_analysis.report --input_format=NHWC --output="/home/ascend/modelzoo/model/device/model" --soc_version=Ascend310 --framework=3 --model="/home/ascend/AscendProjects/ImageClassification/model/model.pb" `
+  - `cp ~/modelzoo/model/device/model.om model/`
 - Execute: `python3.7.5 send_project.py --to-device atlas --execute`
   - This needs the `.env` file. I will share it at the time of deployment.
 - Checkout the results in `outputs`!

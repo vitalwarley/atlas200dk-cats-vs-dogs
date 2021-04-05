@@ -1,11 +1,8 @@
 """
-File: send_project.py
-Author: yourname
-Email: yourname@email.com
-Github: https://github.com/yourname
-Description: this script makes it easir to update the project in Altas 200DK.
+This script makes it easir to update the project in Altas 200DK.
 """
 import os
+import time
 import argparse
 from paramiko import SSHClient
 from scp import SCPClient
@@ -52,7 +49,9 @@ with SCPClient(ssh.get_transport()) as scp:
 
 if args.execute:
     chan = ssh.invoke_shell()
-    chan.send(f"python3.6 {REMOTE_PATH}/src/main.py")
+    chan.send(f"cd {REMOTE_PATH}/src && python3.6 main.py\r")
+
+    time.sleep(5)
 
     with SCPClient(ssh.get_transport()) as scp:
         for src in SOURCES:
